@@ -816,12 +816,37 @@
     const grade = parseInt(document.getElementById('signup-grade').value);
     if (!name || !email || !password) { showMessage('Please fill in all fields.', true); return; }
     showMessage('Creating your account...', false);
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ 
+      email, 
+      password,
+      options: { data: { full_name: name, grade: grade } }
+    });
     if (error) { showMessage(error.message, true); return; }
     if (data.user) {
-      await supabase.from('profiles').upsert({ id: data.user.id, full_name: name, grade: grade, gpa: 0.00 });
-      showMessage('Account created! Signing you in...', false);
-      await loadUserAndEnter(data.user);
+      // Save profile regardless of confirmation status
+      await supabase.from('profiles').upsert({ 
+        id: data.user.id, 
+        full_name: name, 
+        grade: grade, 
+        gpa: 0.00 
+      });
+      // Check if email confirmation is required
+      if (data.session) {
+        // No confirmation needed - log in directly
+        showMessage('Account created! Welcome to EduPath AI!', false);
+        await loadUserAndEnter(data.user);
+      } else {
+        // Confirmation email sent - try signing in anyway
+        showMessage('Account created! Signing you in...', false);
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInData?.user) {
+          await loadUserAndEnter(signInData.user);
+        } else {
+          showMessage('Account created! Please check your email to confirm, then sign in.', false);
+          switchTab('login');
+          document.getElementById('login-email').value = email;
+        }
+      }
     }
   }
 
