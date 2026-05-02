@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EduPath AI — Student Success Coach</title>
+<title>EduPath AI â Student Success Coach</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -639,7 +639,7 @@
     position: relative;
   }
   .welcome-banner::after {
-    content: '🎓';
+    content: 'ð';
     position: absolute; right: 90px; top: 50%;
     transform: translateY(-50%);
     font-size: 72px; opacity: 0.1;
@@ -703,7 +703,7 @@
       </div>
       <div style="margin-bottom:24px;">
         <label style="font-size:12px; color:#7A9BB5; display:block; margin-bottom:6px;">Password</label>
-        <input id="login-password" type="password" placeholder="••••••••" style="
+        <input id="login-password" type="password" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢" style="
           width:100%; padding:12px 14px; background:rgba(13,27,42,0.8);
           border:1px solid rgba(0,194,168,0.2); border-radius:10px;
           color:#E8F0F7; font-family:'Sora',sans-serif; font-size:14px; outline:none;
@@ -762,12 +762,18 @@
     </div>
 
     <div style="text-align:center; margin-top:20px; font-size:11px; color:#7A9BB5;">
-      Powered by Anthropic Claude · Secure & FERPA-Aware
+      Powered by Anthropic Claude Â· Secure & FERPA-Aware
     </div>
   </div>
 </div>
 
 <script>
+  const SUPABASE_URL = 'https://xszyqgvlrhsxsmrtebgw.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_Kdju8CLFDjZvqhdWvPIAxg_BkVBpxON';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  let currentUser = null;
+  let currentProfile = null;
+
   // Auth tab switching
   function switchTab(tab) {
     document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
@@ -883,38 +889,38 @@
     <nav class="nav">
       <div class="nav-section">Main</div>
       <div class="nav-item active" onclick="showView('dashboard', this)">
-        <span class="nav-icon">⚡</span> Dashboard
+        <span class="nav-icon">â¡</span> Dashboard
       </div>
       <div class="nav-item" onclick="showView('coach', this)">
-        <span class="nav-icon">🤖</span> AI Coach
+        <span class="nav-icon">ð¤</span> AI Coach
         <div class="notif-dot"></div>
       </div>
       <div class="nav-item" onclick="showView('gpa', this)">
-        <span class="nav-icon">📊</span> GPA Simulator
+        <span class="nav-icon">ð</span> GPA Simulator
       </div>
       <div class="nav-item" onclick="showView('colleges', this)">
-        <span class="nav-icon">🏛️</span> College Match
+        <span class="nav-icon">ðï¸</span> College Match
       </div>
 
       <div class="nav-item" onclick="showView('roadmap', this)">
-        <span class="nav-icon">🗺️</span> 4-Year Roadmap
+        <span class="nav-icon">ðºï¸</span> 4-Year Roadmap
       </div>
       <div class="nav-item" onclick="showView('essays', this)">
-        <span class="nav-icon">✍️</span> Essay Tracker
+        <span class="nav-icon">âï¸</span> Essay Tracker
       </div>
 
       <div class="nav-section">Family</div>
       <div class="nav-item" onclick="showView('parent', this)">
-        <span class="nav-icon">👨‍👩‍👧</span> Parent Portal
+        <span class="nav-icon">ð¨âð©âð§</span> Parent Portal
       </div>
     </nav>
 
     <div class="sidebar-footer">
       <div class="student-chip">
-        <div class="avatar-sm" id="sidebar-avatar">😊</div>
+        <div class="avatar-sm" id="sidebar-avatar">ð</div>
         <div class="student-info">
           <div class="student-name" id="student-name-display">Jordan Rivera</div>
-          <div class="student-grade" id="student-grade-display">Grade 10 · Wake County</div>
+          <div class="student-grade" id="student-grade-display">Grade 10 Â· Wake County</div>
         </div>
       </div>
     </div>
@@ -925,7 +931,7 @@
     <div class="topbar">
       <div class="topbar-title" id="view-title">Dashboard</div>
       <div class="topbar-actions">
-        <div class="badge gold">🔥 12-Day Streak</div>
+        <div class="badge gold">ð¥ 12-Day Streak</div>
         <div class="badge">GPA 3.8</div>
       </div>
     </div>
@@ -937,12 +943,12 @@
         <div class="welcome-banner">
           <div class="welcome-text">
             <div class="welcome-greeting">Good afternoon,</div>
-            <div class="welcome-name">Jordan Rivera 👋</div>
+            <div class="welcome-name">Jordan Rivera ð</div>
             <div class="welcome-sub">You have 3 tasks due this week and 2 college deadlines approaching.</div>
           </div>
           <div class="streak-badge">
             <div class="streak-num">12</div>
-            <div class="streak-label">Day Streak 🔥</div>
+            <div class="streak-label">Day Streak ð¥</div>
           </div>
         </div>
 
@@ -951,13 +957,13 @@
             <div class="card-title">Current GPA</div>
             <div class="card-value" id="counter-gpa">0.0</div>
             <div class="card-sub">Weighted / Unweighted: 4.1</div>
-            <div class="card-change">↑ +0.1 since last semester</div>
+            <div class="card-change">â +0.1 since last semester</div>
           </div>
           <div class="card">
             <div class="card-title">College Matches</div>
             <div class="card-value" id="counter-colleges">0</div>
-            <div class="card-sub">8 reach · 11 target · 5 safety</div>
-            <div class="card-change">↑ 3 new matches this week</div>
+            <div class="card-sub">8 reach Â· 11 target Â· 5 safety</div>
+            <div class="card-change">â 3 new matches this week</div>
           </div>
           <div class="card">
             <div class="card-title">Credits Completed</div>
@@ -970,10 +976,10 @@
         <!-- Counselor Impact Banner -->
         <div style="margin-top:20px; background: linear-gradient(120deg, rgba(244,197,66,0.08), rgba(0,194,168,0.06)); border:1px solid rgba(244,197,66,0.25); border-radius:var(--radius); padding:16px 22px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; align-items:center; gap:14px;">
-            <div style="font-size:28px;">🧠</div>
+            <div style="font-size:28px;">ð§ </div>
             <div>
               <div style="font-size:13px; font-weight:600; color:var(--gold);">EduPath AI replaces 5+ hours of manual counselor work per student per week</div>
-              <div style="font-size:11px; color:var(--muted); margin-top:3px;">At 400 students per counselor, that is 2,000+ hours saved per semester — redirected to students who need it most.</div>
+              <div style="font-size:11px; color:var(--muted); margin-top:3px;">At 400 students per counselor, that is 2,000+ hours saved per semester â redirected to students who need it most.</div>
             </div>
           </div>
           <div style="display:flex; gap:16px; flex-shrink:0;">
@@ -990,7 +996,7 @@
 
         <div class="section-header">
           <div class="section-title">Academic Progress</div>
-          <a class="section-link">View all courses →</a>
+          <a class="section-link">View all courses â</a>
         </div>
 
         <div class="grid-2">
@@ -1036,7 +1042,7 @@
               <div class="timeline-item">
                 <div class="timeline-dot upcoming"></div>
                 <div class="timeline-date">MAY 10, 2026</div>
-                <div class="timeline-text">Summer Program Application — UNC</div>
+                <div class="timeline-text">Summer Program Application â UNC</div>
               </div>
               <div class="timeline-item">
                 <div class="timeline-dot upcoming"></div>
@@ -1049,7 +1055,7 @@
 
         <div class="section-header">
           <div class="section-title">Graduation Pathway</div>
-          <a class="section-link">Full plan →</a>
+          <a class="section-link">Full plan â</a>
         </div>
         <div class="card">
           <div style="display:flex; gap: 24px; align-items: center;">
@@ -1087,10 +1093,10 @@
           <div>
             <div class="chat-container" style="height: 580px;">
               <div class="chat-header">
-                <div class="coach-avatar" id="coach-avatar-icon">🤖</div>
+                <div class="coach-avatar" id="coach-avatar-icon">ð¤</div>
                 <div>
-                  <div class="coach-name">Aria — Powered by Claude AI</div>
-                  <div class="coach-status" id="coach-status-text">● Online · Ready to help</div>
+                  <div class="coach-name">Aria â Powered by Claude AI</div>
+                  <div class="coach-status" id="coach-status-text">â Online Â· Ready to help</div>
                 </div>
                 <div style="margin-left:auto; display:flex; align-items:center; gap:10px;">
                   <div style="font-size:11px; color: var(--muted);">Grade 10 | Yr 2 of 4</div>
@@ -1105,13 +1111,13 @@
                     color: var(--muted);
                     transition: all 0.2s;
                     display: flex; align-items: center; gap: 6px;
-                  ">🎤 <span style="font-size:11px; font-family:'Sora',sans-serif;">Voice</span></button>
+                  ">ð¤ <span style="font-size:11px; font-family:'Sora',sans-serif;">Voice</span></button>
                 </div>
               </div>
 
               <!-- Voice mode overlay -->
               <div id="voice-mode-panel" style="display:none; flex-direction:column; align-items:center; justify-content:center; flex:1; padding:32px; gap:20px;">
-                <div style="font-size:13px; color:var(--muted); text-align:center;">Voice mode active — speak to Aria</div>
+                <div style="font-size:13px; color:var(--muted); text-align:center;">Voice mode active â speak to Aria</div>
                 <div id="voice-orb" onclick="startListening()" style="
                   width: 100px; height: 100px;
                   border-radius: 50%;
@@ -1122,24 +1128,24 @@
                   box-shadow: 0 0 30px rgba(0,194,168,0.4);
                   transition: all 0.3s;
                   animation: orbPulse 2s infinite;
-                ">🎤</div>
+                ">ð¤</div>
                 <div id="voice-status" style="font-size:13px; color:var(--teal); font-weight:500;">Tap to speak</div>
                 <div id="voice-transcript" style="font-size:12px; color:var(--muted); text-align:center; max-width:300px; min-height:20px; font-style:italic;"></div>
-                <button onclick="toggleVoiceMode()" class="btn btn-ghost" style="font-size:12px;">← Back to Chat</button>
+                <button onclick="toggleVoiceMode()" class="btn btn-ghost" style="font-size:12px;">â Back to Chat</button>
               </div>
 
               <div class="chat-messages" id="chat-messages">
                 <div class="message">
-                  <div class="msg-avatar ai">🤖</div>
-                  <div class="msg-bubble">Hey Jordan! I am Aria, your AI coach powered by Claude. I am here to guide you through all four years of high school. You can type or tap the 🎤 Voice button to talk to me. What would you like to work on today?</div>
+                  <div class="msg-avatar ai">ð¤</div>
+                  <div class="msg-bubble">Hey Jordan! I am Aria, your AI coach powered by Claude. I am here to guide you through all four years of high school. You can type or tap the ð¤ Voice button to talk to me. What would you like to work on today?</div>
                 </div>
               </div>
 
               <div class="quick-prompts" id="quick-prompts-bar">
-                <div class="quick-prompt" onclick="addMessage('What colleges should I target?')">🏛️ College suggestions</div>
-                <div class="quick-prompt" onclick="addMessage('Help me plan my junior year courses')">📚 Course planning</div>
-                <div class="quick-prompt" onclick="addMessage('How is my GPA trending?')">📈 GPA trends</div>
-                <div class="quick-prompt" onclick="addMessage('Help me write my college essay')">✍️ Essay help</div>
+                <div class="quick-prompt" onclick="addMessage('What colleges should I target?')">ðï¸ College suggestions</div>
+                <div class="quick-prompt" onclick="addMessage('Help me plan my junior year courses')">ð Course planning</div>
+                <div class="quick-prompt" onclick="addMessage('How is my GPA trending?')">ð GPA trends</div>
+                <div class="quick-prompt" onclick="addMessage('Help me write my college essay')">âï¸ Essay help</div>
               </div>
 
               <div class="chat-input-area">
@@ -1153,7 +1159,7 @@
                   font-size: 16px;
                   cursor: pointer;
                   transition: all 0.2s;
-                ">🎤</button>
+                ">ð¤</button>
                 <button class="btn btn-primary" onclick="sendMessage()">Send</button>
               </div>
             </div>
@@ -1163,16 +1169,16 @@
             <div class="card">
               <div class="card-title">Powered by Claude AI</div>
               <div style="margin-top:10px; padding:12px; background:var(--teal-dim); border-radius:8px; border:1px solid var(--border);">
-                <div style="font-size:11px; color:var(--teal); font-weight:600; margin-bottom:4px;">🧠 Anthropic Claude</div>
+                <div style="font-size:11px; color:var(--teal); font-weight:600; margin-bottom:4px;">ð§  Anthropic Claude</div>
                 <div style="font-size:11px; color:var(--muted); line-height:1.6;">Aria uses Claude to understand your full academic context and provide personalized, safe guidance tailored to you.</div>
               </div>
               <div style="margin-top:10px; display: flex; flex-direction: column; gap: 8px;">
                 <div style="padding: 10px; background: var(--gold-dim); border-radius: 8px; border: 1px solid rgba(244,197,66,0.2);">
-                  <div style="font-size: 12px; color: var(--gold); font-weight: 600;">⚡ Opportunity Alert</div>
+                  <div style="font-size: 12px; color: var(--gold); font-weight: 600;">â¡ Opportunity Alert</div>
                   <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">UNC Pre-College app closes May 10</div>
                 </div>
                 <div style="padding: 10px; background: rgba(94,196,255,0.1); border-radius: 8px; border: 1px solid rgba(94,196,255,0.2);">
-                  <div style="font-size: 12px; color: var(--sky); font-weight: 600;">🏆 Recent Win</div>
+                  <div style="font-size: 12px; color: var(--sky); font-weight: 600;">ð Recent Win</div>
                   <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">English grade up 7 pts this semester</div>
                 </div>
               </div>
@@ -1181,31 +1187,31 @@
             <div class="card">
               <div class="card-title">Voice Features</div>
               <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px; font-size:12px; color:var(--muted);">
-                <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--teal);">🎤</span> Speak your question aloud</div>
-                <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--teal);">🔊</span> Aria reads answers back to you</div>
-                <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--teal);">🌐</span> Works in Chrome and Edge</div>
+                <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--teal);">ð¤</span> Speak your question aloud</div>
+                <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--teal);">ð</span> Aria reads answers back to you</div>
+                <div style="display:flex; align-items:center; gap:8px;"><span style="color:var(--teal);">ð</span> Works in Chrome and Edge</div>
               </div>
-              <button onclick="toggleVoiceMode()" class="btn btn-ghost" style="width:100%; margin-top:12px; font-size:12px;">🎤 Open Voice Mode</button>
+              <button onclick="toggleVoiceMode()" class="btn btn-ghost" style="width:100%; margin-top:12px; font-size:12px;">ð¤ Open Voice Mode</button>
             </div>
 
             <div class="card">
-              <div class="card-title">🧠 What Aria Knows About You</div>
+              <div class="card-title">ð§  What Aria Knows About You</div>
               <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
                 <div style="padding:8px 10px; background:var(--navy-mid); border-radius:8px; border-left:3px solid var(--teal);">
                   <div style="font-size:10px; color:var(--teal); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px;">Academic</div>
-                  <div style="font-size:12px; color:var(--text);">GPA 3.8 · Strong in English · Needs Chemistry help</div>
+                  <div style="font-size:12px; color:var(--text);">GPA 3.8 Â· Strong in English Â· Needs Chemistry help</div>
                 </div>
                 <div style="padding:8px 10px; background:var(--navy-mid); border-radius:8px; border-left:3px solid var(--sky);">
                   <div style="font-size:10px; color:var(--sky); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px;">Goals</div>
-                  <div style="font-size:12px; color:var(--text);">Targeting UNC Chapel Hill · Interested in STEM</div>
+                  <div style="font-size:12px; color:var(--text);">Targeting UNC Chapel Hill Â· Interested in STEM</div>
                 </div>
                 <div style="padding:8px 10px; background:var(--navy-mid); border-radius:8px; border-left:3px solid var(--gold);">
                   <div style="font-size:10px; color:var(--gold); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px;">Upcoming</div>
-                  <div style="font-size:12px; color:var(--text);">PSAT Apr 1 · AP Exam Apr 15 · UNC App May 10</div>
+                  <div style="font-size:12px; color:var(--text);">PSAT Apr 1 Â· AP Exam Apr 15 Â· UNC App May 10</div>
                 </div>
                 <div style="padding:8px 10px; background:var(--navy-mid); border-radius:8px; border-left:3px solid var(--coral);">
                   <div style="font-size:10px; color:var(--coral); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:2px;">Progress</div>
-                  <div style="font-size:12px; color:var(--text);">Yr 2 of 4 · 14 of 28 credits · 18 coach sessions</div>
+                  <div style="font-size:12px; color:var(--text);">Yr 2 of 4 Â· 14 of 28 credits Â· 18 coach sessions</div>
                 </div>
               </div>
               <div style="margin-top:8px; font-size:10px; color:var(--muted); font-style:italic; text-align:center;">Aria remembers this across every conversation</div>
@@ -1214,9 +1220,9 @@
             <div class="card">
               <div class="card-title">Conversation History</div>
               <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-                <div style="font-size: 12px; color: var(--muted); padding: 8px 0; border-bottom: 1px solid var(--border);">📅 Mar 25 — College List Review</div>
-                <div style="font-size: 12px; color: var(--muted); padding: 8px 0; border-bottom: 1px solid var(--border);">📅 Mar 20 — AP Course Selection</div>
-                <div style="font-size: 12px; color: var(--muted); padding: 8px 0;">📅 Mar 15 — Essay Brainstorm</div>
+                <div style="font-size: 12px; color: var(--muted); padding: 8px 0; border-bottom: 1px solid var(--border);">ð Mar 25 â College List Review</div>
+                <div style="font-size: 12px; color: var(--muted); padding: 8px 0; border-bottom: 1px solid var(--border);">ð Mar 20 â AP Course Selection</div>
+                <div style="font-size: 12px; color: var(--muted); padding: 8px 0;">ð Mar 15 â Essay Brainstorm</div>
               </div>
             </div>
           </div>
@@ -1313,7 +1319,7 @@
             </div>
 
             <div class="card">
-              <div class="card-title">GPA Projection — Next Year</div>
+              <div class="card-title">GPA Projection â Next Year</div>
               <div style="margin-top: 16px;">
                 <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px;">
                   <span>AP courses next year</span>
@@ -1330,7 +1336,7 @@
             <div class="card" id="gpa-recommendation">
               <div class="card-title">AI Coach Tip</div>
               <div style="margin-top: 10px; font-size: 13px; color: var(--muted); line-height: 1.7;" id="gpa-tip">
-                💡 Adjust your courses and grades above to see your GPA update in real time.
+                ð¡ Adjust your courses and grades above to see your GPA update in real time.
               </div>
             </div>
           </div>
@@ -1353,11 +1359,11 @@
 
             <div id="college-list">
               <div class="college-card" data-type="reach">
-                <div class="college-logo" style="background: rgba(0,31,82,0.5);">🔵</div>
+                <div class="college-logo" style="background: rgba(0,31,82,0.5);">ðµ</div>
                 <div class="college-info">
                   <div class="college-name">Duke University</div>
-                  <div class="college-meta">Durham, NC · Private · 6% acceptance</div>
-                  <div class="college-meta" style="margin-top:4px;">Strong STEM · Financial aid available</div>
+                  <div class="college-meta">Durham, NC Â· Private Â· 6% acceptance</div>
+                  <div class="college-meta" style="margin-top:4px;">Strong STEM Â· Financial aid available</div>
                 </div>
                 <div class="match-score">
                   <div class="match-pct">68%</div>
@@ -1367,11 +1373,11 @@
               </div>
 
               <div class="college-card" data-type="target">
-                <div class="college-logo" style="background: rgba(78,42,132,0.5);">🟣</div>
+                <div class="college-logo" style="background: rgba(78,42,132,0.5);">ð£</div>
                 <div class="college-info">
                   <div class="college-name">UNC Chapel Hill</div>
-                  <div class="college-meta">Chapel Hill, NC · Public · 19% acceptance</div>
-                  <div class="college-meta" style="margin-top:4px;">Business · Education · Research</div>
+                  <div class="college-meta">Chapel Hill, NC Â· Public Â· 19% acceptance</div>
+                  <div class="college-meta" style="margin-top:4px;">Business Â· Education Â· Research</div>
                 </div>
                 <div class="match-score">
                   <div class="match-pct">82%</div>
@@ -1381,11 +1387,11 @@
               </div>
 
               <div class="college-card" data-type="target">
-                <div class="college-logo" style="background: rgba(204,0,0,0.3);">🔴</div>
+                <div class="college-logo" style="background: rgba(204,0,0,0.3);">ð´</div>
                 <div class="college-info">
                   <div class="college-name">NC State University</div>
-                  <div class="college-meta">Raleigh, NC · Public · 45% acceptance</div>
-                  <div class="college-meta" style="margin-top:4px;">Engineering · Computer Science · Business</div>
+                  <div class="college-meta">Raleigh, NC Â· Public Â· 45% acceptance</div>
+                  <div class="college-meta" style="margin-top:4px;">Engineering Â· Computer Science Â· Business</div>
                 </div>
                 <div class="match-score">
                   <div class="match-pct">91%</div>
@@ -1395,11 +1401,11 @@
               </div>
 
               <div class="college-card" data-type="target">
-                <div class="college-logo" style="background: rgba(0,100,60,0.4);">🟢</div>
+                <div class="college-logo" style="background: rgba(0,100,60,0.4);">ð¢</div>
                 <div class="college-info">
                   <div class="college-name">Wake Forest University</div>
-                  <div class="college-meta">Winston-Salem, NC · Private · 30% acceptance</div>
-                  <div class="college-meta" style="margin-top:4px;">Liberal Arts · Medicine · Law</div>
+                  <div class="college-meta">Winston-Salem, NC Â· Private Â· 30% acceptance</div>
+                  <div class="college-meta" style="margin-top:4px;">Liberal Arts Â· Medicine Â· Law</div>
                 </div>
                 <div class="match-score">
                   <div class="match-pct">77%</div>
@@ -1409,11 +1415,11 @@
               </div>
 
               <div class="college-card" data-type="safety">
-                <div class="college-logo" style="background: rgba(0,100,180,0.3);">🔷</div>
+                <div class="college-logo" style="background: rgba(0,100,180,0.3);">ð·</div>
                 <div class="college-info">
                   <div class="college-name">NC Central University</div>
-                  <div class="college-meta">Durham, NC · Public HBCU · 65% acceptance</div>
-                  <div class="college-meta" style="margin-top:4px;">Historically Black College · Diverse community</div>
+                  <div class="college-meta">Durham, NC Â· Public HBCU Â· 65% acceptance</div>
+                  <div class="college-meta" style="margin-top:4px;">Historically Black College Â· Diverse community</div>
                 </div>
                 <div class="match-score">
                   <div class="match-pct">96%</div>
@@ -1440,7 +1446,7 @@
             <div class="card">
               <div class="card-title">AI Recommendation</div>
               <div style="margin-top: 10px; font-size: 12px; color: var(--muted); line-height: 1.7;">
-                💡 Your strongest match is NC State. With 2 more AP courses junior year and a SAT score above 1200, your Duke match score rises to <strong style="color: var(--teal);">81%</strong>.
+                ð¡ Your strongest match is NC State. With 2 more AP courses junior year and a SAT score above 1200, your Duke match score rises to <strong style="color: var(--teal);">81%</strong>.
               </div>
             </div>
           </div>
@@ -1450,10 +1456,10 @@
       <!-- 4-YEAR ROADMAP VIEW -->
       <div class="view" id="view-roadmap">
         <div style="margin-bottom:20px;">
-          <div style="font-size:13px; color:var(--muted); margin-bottom:4px;">Jordan Rivera · Wake County · Class of 2028</div>
+          <div style="font-size:13px; color:var(--muted); margin-bottom:4px;">Jordan Rivera Â· Wake County Â· Class of 2028</div>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-            <div style="padding:4px 14px; border-radius:20px; background:var(--teal-dim); border:1px solid var(--border); font-size:12px; color:var(--teal); font-weight:600;">Grade 10 — Year 2 of 4</div>
-            <div style="font-size:12px; color:var(--muted);">✅ = Complete &nbsp; 🔄 = In Progress &nbsp; ⏳ = Upcoming</div>
+            <div style="padding:4px 14px; border-radius:20px; background:var(--teal-dim); border:1px solid var(--border); font-size:12px; color:var(--teal); font-weight:600;">Grade 10 â Year 2 of 4</div>
+            <div style="font-size:12px; color:var(--muted);">â = Complete &nbsp; ð = In Progress &nbsp; â³ = Upcoming</div>
           </div>
         </div>
 
@@ -1466,12 +1472,12 @@
               <div style="font-size:10px; padding:3px 10px; border-radius:20px; background:rgba(122,155,181,0.15); color:var(--muted); font-weight:600;">COMPLETE</div>
             </div>
             <div style="display:flex; flex-direction:column; gap:8px; font-size:12px;">
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>✅</span><span>Establish GPA foundation (3.7)</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>✅</span><span>Meet with school counselor</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>✅</span><span>Join 2 extracurricular activities</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>✅</span><span>Explore career interests</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>✅</span><span>Plan 4-year course sequence</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>✅</span><span>Attend college fair</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â</span><span>Establish GPA foundation (3.7)</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â</span><span>Meet with school counselor</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â</span><span>Join 2 extracurricular activities</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â</span><span>Explore career interests</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â</span><span>Plan 4-year course sequence</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â</span><span>Attend college fair</span></div>
             </div>
             <div style="margin-top:14px; padding:8px; background:var(--navy-mid); border-radius:8px; text-align:center;">
               <div style="font-size:10px; color:var(--muted);">Completion</div>
@@ -1486,12 +1492,12 @@
               <div style="font-size:10px; padding:3px 10px; border-radius:20px; background:var(--teal-dim); color:var(--teal); font-weight:600;">IN PROGRESS</div>
             </div>
             <div style="display:flex; flex-direction:column; gap:8px; font-size:12px;">
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>✅</span><span>Take first AP or Honors course</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>🔄</span><span style="color:var(--teal);">Register for PSAT (Apr 1)</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>🔄</span><span style="color:var(--teal);">Build college interest list</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>🔄</span><span style="color:var(--teal);">Strengthen weak subjects</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span style="color:var(--muted);">Research summer programs</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span style="color:var(--muted);">Begin community service hours</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â</span><span>Take first AP or Honors course</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>ð</span><span style="color:var(--teal);">Register for PSAT (Apr 1)</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>ð</span><span style="color:var(--teal);">Build college interest list</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>ð</span><span style="color:var(--teal);">Strengthen weak subjects</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span style="color:var(--muted);">Research summer programs</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span style="color:var(--muted);">Begin community service hours</span></div>
             </div>
             <div style="margin-top:14px; padding:8px; background:var(--teal-dim); border-radius:8px; text-align:center; border:1px solid var(--border);">
               <div style="font-size:10px; color:var(--muted);">Completion</div>
@@ -1506,12 +1512,12 @@
               <div style="font-size:10px; padding:3px 10px; border-radius:20px; background:rgba(94,196,255,0.1); color:var(--sky); font-weight:600;">UPCOMING</div>
             </div>
             <div style="display:flex; flex-direction:column; gap:8px; font-size:12px; color:var(--muted);">
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Take SAT / ACT (target 1200+)</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>2 or more AP courses</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Visit 3 college campuses</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Finalize college list (8–12 schools)</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Request teacher recommendations</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Begin Common App essay draft</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Take SAT / ACT (target 1200+)</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>2 or more AP courses</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Visit 3 college campuses</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Finalize college list (8â12 schools)</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Request teacher recommendations</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Begin Common App essay draft</span></div>
             </div>
             <div style="margin-top:14px; padding:8px; background:var(--navy-mid); border-radius:8px; text-align:center;">
               <div style="font-size:10px; color:var(--muted);">Completion</div>
@@ -1526,12 +1532,12 @@
               <div style="font-size:10px; padding:3px 10px; border-radius:20px; background:var(--gold-dim); color:var(--gold); font-weight:600;">UPCOMING</div>
             </div>
             <div style="display:flex; flex-direction:column; gap:8px; font-size:12px; color:var(--muted);">
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Submit Early Action apps (Nov 1)</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Complete FAFSA (Oct 1)</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Apply for scholarships</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Regular Decision deadline (Jan 1)</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Compare financial aid offers</span></div>
-              <div style="display:flex; gap:8px; align-items:flex-start;"><span>⏳</span><span>Commit by May 1 — Decision Day 🎓</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Submit Early Action apps (Nov 1)</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Complete FAFSA (Oct 1)</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Apply for scholarships</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Regular Decision deadline (Jan 1)</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Compare financial aid offers</span></div>
+              <div style="display:flex; gap:8px; align-items:flex-start;"><span>â³</span><span>Commit by May 1 â Decision Day ð</span></div>
             </div>
             <div style="margin-top:14px; padding:8px; background:var(--navy-mid); border-radius:8px; text-align:center;">
               <div style="font-size:10px; color:var(--muted);">Completion</div>
@@ -1550,7 +1556,7 @@
             <div class="progress-fill" style="width:35%;"></div>
           </div>
           <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:10px; color:var(--muted);">
-            <span>Freshman year</span><span>Sophomore</span><span>Junior</span><span>Senior 🎓</span>
+            <span>Freshman year</span><span>Sophomore</span><span>Junior</span><span>Senior ð</span>
           </div>
         </div>
       </div>
@@ -1573,22 +1579,22 @@
               </div>
               <div style="margin-top:14px; display:flex; flex-direction:column; gap:8px;">
                 <div style="display:flex; gap:10px; align-items:center; padding:8px 10px; background:var(--navy-mid); border-radius:8px; font-size:12px;">
-                  <span style="color:var(--teal);">✅</span><span>Chose prompt #1 — Background story</span>
+                  <span style="color:var(--teal);">â</span><span>Chose prompt #1 â Background story</span>
                 </div>
                 <div style="display:flex; gap:10px; align-items:center; padding:8px 10px; background:var(--navy-mid); border-radius:8px; font-size:12px;">
-                  <span style="color:var(--teal);">✅</span><span>Completed brainstorm with Aria</span>
+                  <span style="color:var(--teal);">â</span><span>Completed brainstorm with Aria</span>
                 </div>
                 <div style="display:flex; gap:10px; align-items:center; padding:8px 10px; background:var(--navy-mid); border-radius:8px; font-size:12px;">
-                  <span style="color:var(--gold);">🔄</span><span style="color:var(--gold);">First draft — 320 of 650 words written</span>
+                  <span style="color:var(--gold);">ð</span><span style="color:var(--gold);">First draft â 320 of 650 words written</span>
                 </div>
                 <div style="display:flex; gap:10px; align-items:center; padding:8px 10px; background:var(--navy-mid); border-radius:8px; font-size:12px; opacity:0.5;">
-                  <span>⏳</span><span>Counselor review</span>
+                  <span>â³</span><span>Counselor review</span>
                 </div>
                 <div style="display:flex; gap:10px; align-items:center; padding:8px 10px; background:var(--navy-mid); border-radius:8px; font-size:12px; opacity:0.5;">
-                  <span>⏳</span><span>Final proofread and submit</span>
+                  <span>â³</span><span>Final proofread and submit</span>
                 </div>
               </div>
-              <button class="btn btn-primary" style="width:100%; margin-top:14px; font-size:12px;" onclick="addMessage('Help me continue writing my Common App essay')">✍️ Continue with Aria</button>
+              <button class="btn btn-primary" style="width:100%; margin-top:14px; font-size:12px;" onclick="addMessage('Help me continue writing my Common App essay')">âï¸ Continue with Aria</button>
             </div>
 
             <div class="card">
@@ -1597,21 +1603,21 @@
                 <div style="padding:12px; background:var(--navy-mid); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
                   <div>
                     <div style="font-size:13px; font-weight:500;">UNC Chapel Hill</div>
-                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">2 supplements · ~400 words each</div>
+                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">2 supplements Â· ~400 words each</div>
                   </div>
                   <div style="font-size:11px; padding:3px 10px; border-radius:20px; background:rgba(94,196,255,0.1); color:var(--sky); border:1px solid rgba(94,196,255,0.2);">Not Started</div>
                 </div>
                 <div style="padding:12px; background:var(--navy-mid); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
                   <div>
                     <div style="font-size:13px; font-weight:500;">NC State University</div>
-                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">1 supplement · ~250 words</div>
+                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">1 supplement Â· ~250 words</div>
                   </div>
                   <div style="font-size:11px; padding:3px 10px; border-radius:20px; background:rgba(94,196,255,0.1); color:var(--sky); border:1px solid rgba(94,196,255,0.2);">Not Started</div>
                 </div>
                 <div style="padding:12px; background:var(--navy-mid); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center;">
                   <div>
                     <div style="font-size:13px; font-weight:500;">Wake Forest University</div>
-                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">3 supplements · ~200 words each</div>
+                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">3 supplements Â· ~200 words each</div>
                   </div>
                   <div style="font-size:11px; padding:3px 10px; border-radius:20px; background:rgba(94,196,255,0.1); color:var(--sky); border:1px solid rgba(94,196,255,0.2);">Not Started</div>
                 </div>
@@ -1626,19 +1632,19 @@
                 <div style="padding:12px; background:var(--teal-dim); border-radius:var(--radius-sm); border:1px solid var(--border);">
                   <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div>
-                      <div style="font-size:13px; font-weight:500;">Ms. Thompson — English</div>
+                      <div style="font-size:13px; font-weight:500;">Ms. Thompson â English</div>
                       <div style="font-size:11px; color:var(--muted); margin-top:2px;">Asked and confirmed</div>
                     </div>
-                    <span style="color:var(--teal); font-size:18px;">✅</span>
+                    <span style="color:var(--teal); font-size:18px;">â</span>
                   </div>
                 </div>
                 <div style="padding:12px; background:var(--navy-mid); border-radius:var(--radius-sm);">
                   <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div>
-                      <div style="font-size:13px; font-weight:500;">Mr. Johnson — Chemistry</div>
+                      <div style="font-size:13px; font-weight:500;">Mr. Johnson â Chemistry</div>
                       <div style="font-size:11px; color:var(--muted); margin-top:2px;">Not yet asked</div>
                     </div>
-                    <span style="color:var(--muted); font-size:18px;">⏳</span>
+                    <span style="color:var(--muted); font-size:18px;">â³</span>
                   </div>
                 </div>
                 <div style="padding:12px; background:var(--navy-mid); border-radius:var(--radius-sm);">
@@ -1647,7 +1653,7 @@
                       <div style="font-size:13px; font-weight:500;">Counselor Letter</div>
                       <div style="font-size:11px; color:var(--muted); margin-top:2px;">Scheduled for May</div>
                     </div>
-                    <span style="color:var(--gold); font-size:18px;">🔄</span>
+                    <span style="color:var(--gold); font-size:18px;">ð</span>
                   </div>
                 </div>
               </div>
@@ -1664,12 +1670,12 @@
                 <div class="timeline-item">
                   <div class="timeline-dot upcoming"></div>
                   <div class="timeline-date">OCT 01, 2027</div>
-                  <div class="timeline-text">FAFSA opens — file immediately</div>
+                  <div class="timeline-text">FAFSA opens â file immediately</div>
                 </div>
                 <div class="timeline-item">
                   <div class="timeline-dot upcoming"></div>
                   <div class="timeline-date">NOV 01, 2027</div>
-                  <div class="timeline-text">Early Action — UNC, NC State</div>
+                  <div class="timeline-text">Early Action â UNC, NC State</div>
                 </div>
                 <div class="timeline-item">
                   <div class="timeline-dot upcoming"></div>
@@ -1679,7 +1685,7 @@
                 <div class="timeline-item">
                   <div class="timeline-dot upcoming"></div>
                   <div class="timeline-date">MAY 01, 2028</div>
-                  <div class="timeline-text">🎓 National Decision Day — Commit!</div>
+                  <div class="timeline-text">ð National Decision Day â Commit!</div>
                 </div>
               </div>
             </div>
@@ -1687,9 +1693,9 @@
             <div class="card" style="background:linear-gradient(135deg,rgba(0,194,168,0.08),rgba(94,196,255,0.05)); border-color:rgba(0,194,168,0.3);">
               <div class="card-title">Aria Essay Tips</div>
               <div style="margin-top:10px; font-size:13px; color:var(--muted); line-height:1.8;">
-                💡 Your strongest essay angle is your story. Focus on a specific moment rather than a general summary. Admissions officers read thousands of essays — the ones that stay specific and personal are the ones they remember.
+                ð¡ Your strongest essay angle is your story. Focus on a specific moment rather than a general summary. Admissions officers read thousands of essays â the ones that stay specific and personal are the ones they remember.
               </div>
-              <button class="btn btn-primary" style="width:100%; margin-top:12px; font-size:12px;" onclick="showView('coach', document.querySelector('.nav-item:nth-child(3)'))">🤖 Ask Aria to Help</button>
+              <button class="btn btn-primary" style="width:100%; margin-top:12px; font-size:12px;" onclick="showView('coach', document.querySelector('.nav-item:nth-child(3)'))">ð¤ Ask Aria to Help</button>
             </div>
           </div>
         </div>
@@ -1703,19 +1709,19 @@
             <div class="parent-name">Rivera Family Dashboard</div>
             <div style="font-size: 13px; color: var(--muted); margin-top: 6px;">Monitoring Jordan's progress through Grade 10</div>
           </div>
-          <div class="alert-pill">⚠️ 2 Action Items This Week</div>
+          <div class="alert-pill">â ï¸ 2 Action Items This Week</div>
         </div>
 
         <div class="grid-3" style="margin-bottom: 20px;">
           <div class="card">
             <div class="card-title">Academic Status</div>
             <div style="font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--teal);">On Track</div>
-            <div class="card-sub">GPA 3.8 · 14 of 28 credits</div>
+            <div class="card-sub">GPA 3.8 Â· 14 of 28 credits</div>
           </div>
           <div class="card">
             <div class="card-title">AI Coach Sessions</div>
             <div style="font-family: 'DM Serif Display', serif; font-size: 32px;">18</div>
-            <div class="card-sub">This semester · Avg 12 min/session</div>
+            <div class="card-sub">This semester Â· Avg 12 min/session</div>
           </div>
           <div class="card">
             <div class="card-title">Top College Match</div>
@@ -1731,7 +1737,7 @@
             </div>
             <div class="activity-feed">
               <div class="activity-item">
-                <div class="activity-icon" style="background: var(--teal-dim);">📚</div>
+                <div class="activity-icon" style="background: var(--teal-dim);">ð</div>
                 <div class="activity-text">
                   <div class="activity-title">Completed Chemistry Study Session</div>
                   <div class="activity-desc">Jordan spent 45 min reviewing stoichiometry with the AI coach</div>
@@ -1739,7 +1745,7 @@
                 <div class="activity-time">2h ago</div>
               </div>
               <div class="activity-item">
-                <div class="activity-icon" style="background: var(--gold-dim);">🏛️</div>
+                <div class="activity-icon" style="background: var(--gold-dim);">ðï¸</div>
                 <div class="activity-text">
                   <div class="activity-title">Saved 3 Colleges to List</div>
                   <div class="activity-desc">Added UNC, Duke, and Wake Forest to college tracker</div>
@@ -1747,7 +1753,7 @@
                 <div class="activity-time">Yesterday</div>
               </div>
               <div class="activity-item">
-                <div class="activity-icon" style="background: rgba(94,196,255,0.1);">✍️</div>
+                <div class="activity-icon" style="background: rgba(94,196,255,0.1);">âï¸</div>
                 <div class="activity-text">
                   <div class="activity-title">Started College Essay Draft</div>
                   <div class="activity-desc">Working on the Common App personal statement intro</div>
@@ -1755,10 +1761,10 @@
                 <div class="activity-time">Mar 26</div>
               </div>
               <div class="activity-item">
-                <div class="activity-icon" style="background: rgba(255,107,107,0.1);">⚠️</div>
+                <div class="activity-icon" style="background: rgba(255,107,107,0.1);">â ï¸</div>
                 <div class="activity-text">
                   <div class="activity-title">PSAT Registration Deadline</div>
-                  <div class="activity-desc">Registration closes April 1 — action needed</div>
+                  <div class="activity-desc">Registration closes April 1 â action needed</div>
                 </div>
                 <div class="activity-time">Alert</div>
               </div>
@@ -1771,23 +1777,23 @@
               <div class="timeline" style="margin-top: 12px;">
                 <div class="timeline-item">
                   <div class="timeline-dot done"></div>
-                  <div class="timeline-date">GRADE 9 — COMPLETE</div>
-                  <div class="timeline-text">Foundations set · GPA 3.7 established</div>
+                  <div class="timeline-date">GRADE 9 â COMPLETE</div>
+                  <div class="timeline-text">Foundations set Â· GPA 3.7 established</div>
                 </div>
                 <div class="timeline-item">
                   <div class="timeline-dot"></div>
-                  <div class="timeline-date">GRADE 10 — IN PROGRESS</div>
-                  <div class="timeline-text">PSAT · First AP · College exploration</div>
+                  <div class="timeline-date">GRADE 10 â IN PROGRESS</div>
+                  <div class="timeline-text">PSAT Â· First AP Â· College exploration</div>
                 </div>
                 <div class="timeline-item">
                   <div class="timeline-dot upcoming"></div>
-                  <div class="timeline-date">GRADE 11 — UPCOMING</div>
-                  <div class="timeline-text">SAT · AP exams · College visits</div>
+                  <div class="timeline-date">GRADE 11 â UPCOMING</div>
+                  <div class="timeline-text">SAT Â· AP exams Â· College visits</div>
                 </div>
                 <div class="timeline-item">
                   <div class="timeline-dot upcoming"></div>
-                  <div class="timeline-date">GRADE 12 — UPCOMING</div>
-                  <div class="timeline-text">Applications · FAFSA · Decision Day</div>
+                  <div class="timeline-date">GRADE 12 â UPCOMING</div>
+                  <div class="timeline-text">Applications Â· FAFSA Â· Decision Day</div>
                 </div>
               </div>
             </div>
@@ -1797,11 +1803,11 @@
               <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 10px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
                   <span>Weekly progress reports</span>
-                  <span style="color: var(--teal);">✓ On</span>
+                  <span style="color: var(--teal);">â On</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
                   <span>Deadline alerts via email</span>
-                  <span style="color: var(--teal);">✓ On</span>
+                  <span style="color: var(--teal);">â On</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
                   <span>Chat transcript access</span>
@@ -1832,10 +1838,10 @@
 </style>
 
 <script>
-  // ── Navigation ──────────────────────────────────────────────────────────
+  // ââ Navigation ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   const viewTitles = {
     dashboard: 'Dashboard',
-    coach: 'AI Coach — Aria',
+    coach: 'AI Coach â Aria',
     gpa: 'GPA Simulator',
     colleges: 'College Matcher',
     roadmap: '4-Year Roadmap',
@@ -1851,7 +1857,7 @@
     document.getElementById('view-title').textContent = viewTitles[name];
   }
 
-  // ── Animated Counters ────────────────────────────────────────────────────
+  // ââ Animated Counters ââââââââââââââââââââââââââââââââââââââââââââââââââââ
   function animateCounter(id, target, decimals, duration) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -1877,11 +1883,11 @@
     buildCourseSlots();
   });
 
-  // ── Claude API Chat ──────────────────────────────────────────────────────
+  // ââ Claude API Chat ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   const SYSTEM_PROMPT = `You are Aria, an AI student success coach for EduPath AI, powered by Claude.
 You are speaking with Jordan Rivera, a Grade 10 student at Wake County Public School System in North Carolina.
 Student profile: GPA 3.8 weighted, 14 of 28 credits completed, strongest in English (92%), needs help with Chemistry (75%) and Spanish (60%). Currently taking AP Chemistry, English 10 Honors, Algebra II, World History, Spanish II, and PE.
-Your role: Guide Jordan through all 4 years of high school — college planning, GPA improvement, course selection, essays, and deadlines.
+Your role: Guide Jordan through all 4 years of high school â college planning, GPA improvement, course selection, essays, and deadlines.
 Key upcoming items: PSAT registration deadline April 1, AP exam registration April 15, UNC Pre-College application May 10.
 Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's actual grades and goals. Never give harmful or inappropriate content. Keep responses under 120 words unless a detailed plan is requested.`;
 
@@ -1936,7 +1942,7 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
     const msgs = document.getElementById('chat-messages');
     msgs.innerHTML += `
       <div class="message user" style="animation: fadeUp 0.2s ease;">
-        <div class="msg-avatar user-av">😊</div>
+        <div class="msg-avatar user-av">ð</div>
         <div class="msg-bubble">${escapeHtml(text)}</div>
       </div>`;
     msgs.scrollTop = msgs.scrollHeight;
@@ -1946,7 +1952,7 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
     const msgs = document.getElementById('chat-messages');
     msgs.innerHTML += `
       <div class="message" style="animation: fadeUp 0.2s ease;">
-        <div class="msg-avatar ai">🤖</div>
+        <div class="msg-avatar ai">ð¤</div>
         <div class="msg-bubble">${escapeHtml(text)}</div>
       </div>`;
     msgs.scrollTop = msgs.scrollHeight;
@@ -1957,7 +1963,7 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
     const id = 'typing-' + Date.now();
     msgs.innerHTML += `
       <div class="message" id="${id}">
-        <div class="msg-avatar ai">🤖</div>
+        <div class="msg-avatar ai">ð¤</div>
         <div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>
       </div>`;
     msgs.scrollTop = msgs.scrollHeight;
@@ -1972,7 +1978,7 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // ── Voice Mode ───────────────────────────────────────────────────────────
+  // ââ Voice Mode âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = null;
   let isListening = false;
@@ -2076,17 +2082,17 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
   }
 
-  // ── GPA Simulator ────────────────────────────────────────────────────────
+  // ââ GPA Simulator ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   const GRADES = [
-    { label: 'A  (100–93)', points: 1.000 },
-    { label: 'A− (92–90)',  points: 0.925 },
-    { label: 'B+ (89–87)',  points: 0.825 },
-    { label: 'B  (86–83)',  points: 0.750 },
-    { label: 'B− (82–80)',  points: 0.675 },
-    { label: 'C+ (79–77)',  points: 0.575 },
-    { label: 'C  (76–73)',  points: 0.500 },
-    { label: 'C− (72–70)',  points: 0.425 },
-    { label: 'D  (69–60)',  points: 0.250 },
+    { label: 'A  (100â93)', points: 1.000 },
+    { label: 'Aâ (92â90)',  points: 0.925 },
+    { label: 'B+ (89â87)',  points: 0.825 },
+    { label: 'B  (86â83)',  points: 0.750 },
+    { label: 'Bâ (82â80)',  points: 0.675 },
+    { label: 'C+ (79â77)',  points: 0.575 },
+    { label: 'C  (76â73)',  points: 0.500 },
+    { label: 'Câ (72â70)',  points: 0.425 },
+    { label: 'D  (69â60)',  points: 0.250 },
     { label: 'F  (below 60)', points: 0.000 },
   ];
 
@@ -2234,13 +2240,13 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
     if (!tip) return;
     const apCount = defaultSlots.filter(s => s.type === 2).length;
     if (wGPA >= 4.5) {
-      tip.innerHTML = `🌟 Outstanding! Your weighted GPA of <strong style="color:var(--teal)">${wGPA}</strong> on the NC scale is highly competitive for any university in North Carolina. Keep it up!`;
+      tip.innerHTML = `ð Outstanding! Your weighted GPA of <strong style="color:var(--teal)">${wGPA}</strong> on the NC scale is highly competitive for any university in North Carolina. Keep it up!`;
     } else if (wGPA >= 4.0) {
-      tip.innerHTML = `💡 Strong GPA of <strong style="color:var(--teal)">${wGPA}</strong>. Adding ${apCount < 2 ? 'one or two AP courses' : 'another AP course'} could push you toward 4.5+ on the NC weighted scale.`;
+      tip.innerHTML = `ð¡ Strong GPA of <strong style="color:var(--teal)">${wGPA}</strong>. Adding ${apCount < 2 ? 'one or two AP courses' : 'another AP course'} could push you toward 4.5+ on the NC weighted scale.`;
     } else if (wGPA >= 3.0) {
-      tip.innerHTML = `📈 Your GPA is <strong style="color:var(--gold)">${wGPA}</strong>. Raising grades in your Academic courses will improve your unweighted GPA the fastest. Talk to Aria for a study plan.`;
+      tip.innerHTML = `ð Your GPA is <strong style="color:var(--gold)">${wGPA}</strong>. Raising grades in your Academic courses will improve your unweighted GPA the fastest. Talk to Aria for a study plan.`;
     } else {
-      tip.innerHTML = `⚠️ Your GPA of <strong style="color:var(--coral)">${wGPA}</strong> needs attention. Click AI Coach in the sidebar and ask Aria for a personalized improvement plan.`;
+      tip.innerHTML = `â ï¸ Your GPA of <strong style="color:var(--coral)">${wGPA}</strong> needs attention. Click AI Coach in the sidebar and ask Aria for a personalized improvement plan.`;
     }
   }
 
@@ -2259,7 +2265,7 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
 
   // Initialize slots on page load handled above
 
-  // ── College Filter ───────────────────────────────────────────────────────
+  // ââ College Filter âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   function filterColleges(type, el) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     el.classList.add('active');
