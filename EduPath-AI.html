@@ -853,12 +853,22 @@
     currentUser = user;
     const { data: profile } = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();
     currentProfile = profile;
-    if (profile) {
-      const nameEl = document.getElementById('student-name-display');
-      const gradeEl = document.getElementById('student-grade-display');
-      if (nameEl) nameEl.textContent = profile.full_name || user.email;
-      if (gradeEl) gradeEl.textContent = 'Grade ' + (profile.grade || '') + ' Student';
-    }
+    const displayName = (profile && profile.full_name) ? profile.full_name : user.email.split('@')[0];
+    const gradeNum = (profile && profile.grade) ? profile.grade : '';
+    const gradeLabel = gradeNum ? 'Grade ' + gradeNum + ' · Wake County' : 'Wake County Student';
+    document.querySelectorAll('#student-name-display, .student-name').forEach(el => el.textContent = displayName);
+    document.querySelectorAll('#student-grade-display, .student-grade').forEach(el => el.textContent = gradeLabel);
+    const welcomeName = document.querySelector('.welcome-name');
+    if (welcomeName) welcomeName.innerHTML = displayName + ' 👋';
+    const sidebarName = document.querySelector('.sidebar-student-name');
+    if (sidebarName) sidebarName.textContent = displayName;
+    document.querySelectorAll('*').forEach(el => {
+      if (el.childNodes.length === 1 && el.childNodes[0].nodeType === 3) {
+        if (el.textContent.includes('Jordan Rivera')) {
+          el.textContent = el.textContent.replace(/Jordan Rivera/g, displayName);
+        }
+      }
+    });
     document.getElementById('login-screen').style.display = 'none';
   }
 
@@ -907,6 +917,9 @@
       </div>
       <div class="nav-item" onclick="showView('essays', this)">
         <span class="nav-icon">✍️</span> Essay Tracker
+      </div>
+      <div class="nav-item" onclick="showView('transcript', this)">
+        <span class="nav-icon">📄</span> My Transcript
       </div>
 
       <div class="nav-section">Family</div>
@@ -1702,7 +1715,44 @@
       </div>
 
       <!-- PARENT PORTAL VIEW -->
-      <div class="view" id="view-parent">
+      
+<!-- TRANSCRIPT UPLOAD SECTION -->
+<div id="view-transcript" class="view" style="display:none; padding:32px;">
+  <div style="max-width:700px; margin:0 auto;">
+    <h2 style="font-family:'DM Serif Display',serif; font-size:28px; color:var(--text); margin-bottom:8px;">My Transcript</h2>
+    <p style="color:var(--muted); font-size:14px; margin-bottom:32px;">Upload your transcript so Aria can give you personalized course and college recommendations.</p>
+    <div id="transcript-upload-area" style="border:2px dashed rgba(0,194,168,0.3);border-radius:16px;padding:48px;text-align:center;background:rgba(0,194,168,0.04);cursor:pointer;transition:all 0.2s;" onclick="document.getElementById('transcript-file-input').click()" ondragover="event.preventDefault();this.style.borderColor='#00C2A8';" ondrop="handleTranscriptDrop(event)">
+      <div style="font-size:48px;margin-bottom:16px;">📄</div>
+      <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px;">Drop your transcript here or click to upload</div>
+      <div style="font-size:13px;color:var(--muted);">Supports PDF, JPG, PNG files</div>
+      <input type="file" id="transcript-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="handleTranscriptUpload(this)">
+    </div>
+    <div id="transcript-preview" style="display:none;margin-top:24px;">
+      <div style="background:rgba(0,194,168,0.08);border:1px solid rgba(0,194,168,0.2);border-radius:12px;padding:20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <span style="font-size:24px;">✅</span>
+          <div><div style="font-weight:600;color:var(--text);" id="transcript-filename">transcript.pdf</div><div style="font-size:12px;color:var(--muted);">Uploaded successfully</div></div>
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">Aria will use this transcript to personalize your college recommendations and academic planning.</div>
+        <button onclick="document.getElementById('transcript-file-input').click()" style="padding:10px 20px;background:transparent;border:1px solid rgba(0,194,168,0.3);border-radius:8px;color:var(--teal);font-family:'Sora',sans-serif;font-size:13px;cursor:pointer;">Replace Transcript</button>
+      </div>
+    </div>
+    <div style="margin-top:32px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;">
+      <div style="font-weight:600;color:var(--text);margin-bottom:16px;font-size:15px;">Or enter your courses manually</div>
+      <div id="manual-courses" style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <input placeholder="Course name" style="padding:10px 12px;background:rgba(13,27,42,0.6);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none;">
+          <select style="padding:10px 12px;background:rgba(13,27,42,0.6);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none;"><option>Grade</option><option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>D</option></select>
+          <select style="padding:10px 12px;background:rgba(13,27,42,0.6);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:13px;outline:none;"><option>Type</option><option>Regular</option><option>Honors</option><option>AP</option><option>IB</option><option>Dual Enrollment</option></select>
+        </div>
+      </div>
+      <button onclick="addManualCourse()" style="margin-top:12px;padding:10px 20px;background:transparent;border:1px solid rgba(0,194,168,0.3);border-radius:8px;color:var(--teal);font-family:'Sora',sans-serif;font-size:13px;cursor:pointer;">+ Add Another Course</button>
+      <button onclick="saveManualTranscript()" style="margin-top:12px;margin-left:12px;padding:10px 24px;background:linear-gradient(135deg,var(--teal),var(--sky));border:none;border-radius:8px;color:#0D1B2A;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Save Transcript</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-parent">
         <div class="parent-header">
           <div>
             <div class="parent-greeting">Welcome to the Parent Portal</div>
@@ -1845,6 +1895,7 @@
     gpa: 'GPA Simulator',
     colleges: 'College Matcher',
     roadmap: '4-Year Roadmap',
+    transcript: 'My Transcript',
     essays: 'Essay Tracker',
     parent: 'Parent Portal'
   };
@@ -2273,6 +2324,41 @@ Be warm, encouraging, specific, and concise. Always tie advice back to Jordan's 
       c.style.display = (type === 'all' || c.dataset.type === type) ? 'flex' : 'none';
     });
   }
+
+  function handleTranscriptUpload(input) {
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      document.getElementById('transcript-filename').textContent = file.name;
+      document.getElementById('transcript-upload-area').style.display = 'none';
+      document.getElementById('transcript-preview').style.display = 'block';
+    }
+  }
+  function handleTranscriptDrop(event) {
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      document.getElementById('transcript-filename').textContent = file.name;
+      document.getElementById('transcript-upload-area').style.display = 'none';
+      document.getElementById('transcript-preview').style.display = 'block';
+    }
+  }
+  function addManualCourse() {
+    const container = document.getElementById('manual-courses');
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;';
+    row.innerHTML = '<input placeholder="Course name" style="padding:10px 12px;background:rgba(13,27,42,0.6);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:Sora,sans-serif;font-size:13px;outline:none;"><select style="padding:10px 12px;background:rgba(13,27,42,0.6);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:Sora,sans-serif;font-size:13px;outline:none;"><option>Grade</option><option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>D</option></select><select style="padding:10px 12px;background:rgba(13,27,42,0.6);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:Sora,sans-serif;font-size:13px;outline:none;"><option>Type</option><option>Regular</option><option>Honors</option><option>AP</option><option>IB</option><option>Dual Enrollment</option></select>';
+    container.appendChild(row);
+  }
+  function saveManualTranscript() {
+    const rows = document.querySelectorAll('#manual-courses > div');
+    const courses = [];
+    rows.forEach(row => {
+      const inputs = row.querySelectorAll('input, select');
+      if (inputs[0] && inputs[0].value) courses.push({name:inputs[0].value,grade:inputs[1]?.value,type:inputs[2]?.value});
+    });
+    if (courses.length > 0) alert('Transcript saved with ' + courses.length + ' course(s). Aria will use this for personalized recommendations!');
+  }
+
 </script>
 </body>
 </html>
